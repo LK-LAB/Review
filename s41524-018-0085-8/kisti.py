@@ -27,6 +27,7 @@ y = np.where(y > T_sep, 1, 0)
 # Dataset에서 85%는 train에, 나머지 15%는 test에 사용하기 위해 분할 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, random_state=0, stratify=y)
 
+feature_set = [ft for ft in X.columns]
 
 stdsc = StandardScaler()
 
@@ -34,7 +35,7 @@ X_train_std = stdsc.fit_transform(X_train)
 X_test_std = stdsc.transform(X_test)
 
 sbs = SBS(forest, k_features=1)
-sbs.fit(X_train, y_train)
+sbs.fit(X_train_std, y_train, feature_set)
 
 k_feat = [len(k) for k in sbs.subsets_]
 
